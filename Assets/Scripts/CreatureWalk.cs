@@ -18,6 +18,7 @@ public class CreatureWalk : MonoBehaviour {
 	void Start() {
 		CameraDist = Camera.main.transform.position.y - transform.position.y;
 		gravityCenters = new ArrayList();
+		Physics2D.IgnoreLayerCollision (LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Creatures"), true);
 	}
 	
 	void FixedUpdate() {
