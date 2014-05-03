@@ -9,12 +9,16 @@ public class CreatureScript : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		if (typeInt == 0) {
-			print ("hello");		
+			typeInt = Random.Range(0, 6);		
 		}
 	}
 	
 	// Update is called once per frame
 	void Update () {
-	
+		if(typeInt == 1) {
+			rigidbody2D.mass = 100;
+		}
 	}
+
+
 }
