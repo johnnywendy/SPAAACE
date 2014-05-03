@@ -5,7 +5,7 @@ public class Propulsion : MonoBehaviour {
 
 	public float maxSpeed;
 	public float walkSpeed;
-	private float burnSpeed = 0.14f;
+	private float burnSpeed = 0.18f;
 	private float breathSpeed = 0.015f;
 
 	private float fuel = 100;
