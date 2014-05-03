@@ -27,6 +27,7 @@ public class CreatureWalk : MonoBehaviour {
 			else
 				rigidbody2D.AddForce(1 * currentGravity * transform.right);
 		}
+
 	}
 	
 	// Update is called once per frame
