@@ -68,7 +68,7 @@ public class Propulsion : MonoBehaviour {
 			particles2.gameObject.rigidbody2D.velocity = rigidbody2D.velocity;
 			particles2.gameObject.rigidbody2D.AddForce((-transform.up) * 350f);
 		}
-		if (Mathf.Abs(rigidbody2D.velocity.x) > maxSpeed && Mathf.Abs(rigidbody2D.velocity.y) > maxSpeed) {
+		if (Mathf.Abs(rigidbody2D.velocity.x) > maxSpeed && Mathf.Abs(rigidbody2D.velocity.y) > maxSpeed && !doGravity) {
 			rigidbody2D.velocity = Vector3.Lerp (rigidbody2D.velocity,Vector3.zero,Time.deltaTime*2);
 		}
 	}

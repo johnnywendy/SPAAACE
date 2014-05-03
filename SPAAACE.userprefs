@@ -1,0 +1,14 @@
+﻿<Properties>
+  <MonoDevelop.Ide.Workspace />
+  <MonoDevelop.Ide.Workbench ActiveDocument="../Heracles/Assets/Scenes/BlueTeamLevel2/Scripts/ParallaxBackground.cs">
+    <Files>
+      <File FileName="Assets/Scripts/Propulsion.cs" Line="71" Column="104" />
+      <File FileName="Assets/Scripts/Planet.cs" Line="4" Column="4" />
+      <File FileName="../Heracles/Assets/Scenes/BlueTeamLevel2/Scripts/ParallaxBackground.cs" Line="1" Column="1" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+</Properties>
