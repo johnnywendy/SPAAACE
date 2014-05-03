@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class CreatureWalk : MonoBehaviour {
-	
+public class CreatureFly : MonoBehaviour {
+
 	private float CameraDist, angle;
 	private Vector3 mousePos, direction, pos;
 	private bool doGravity;
@@ -11,36 +11,37 @@ public class CreatureWalk : MonoBehaviour {
 	private bool grounded;
 	private Transform currentPlanet;
 	private float currentGravity;
-	private bool doOppositeGravity = false;
 	
 	public Transform landEffect;
 	
 	void Start() {
 		CameraDist = Camera.main.transform.position.y - transform.position.y;
 		gravityCenters = new ArrayList();
+		float temp = Random.Range(0, 4);
+		transform.position = new Vector2 (0, 0);
+		if (temp == 0)
+			rigidbody2D.AddForce (transform.up * 1500f);
+		if (temp == 1)
+			rigidbody2D.AddForce (transform.up * -1500f);
+		if (temp == 2)
+			rigidbody2D.AddForce (transform.right * 1500f);
+		if (temp == 3)
+			rigidbody2D.AddForce (transform.right * -1500f);
 	}
 	
 	void FixedUpdate() {
 		if (grounded) {
 			currentGravity = 5+currentPlanet.localScale.x;
 			if (rigidbody2D.velocity.x > currentGravity/16)
-				rigidbody2D.AddForce(1 * currentGravity/1.4f * transform.right);
+				rigidbody2D.AddForce(1f * currentGravity/1.4f * transform.right);
 			else
-				rigidbody2D.AddForce(1 * currentGravity * transform.right);
+				rigidbody2D.AddForce(1f * currentGravity * transform.right);
 		}
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		if (grounded) {
-			if (rigidbody2D.velocity.x > currentGravity/8)
-				rigidbody2D.velocity = Vector2.Lerp(rigidbody2D.velocity,Vector2.zero,Time.deltaTime);
-		}
-		else if (grounded || innerGravity) {
-			rigidbody2D.velocity = Vector2.Lerp(rigidbody2D.velocity,Vector2.zero,Time.deltaTime);
-		}
-		if (doGravity)
-			ApplyGravity();
+
 	}
 	
 	void OnTriggerExit2D(Collider2D other) {
@@ -71,6 +72,10 @@ public class CreatureWalk : MonoBehaviour {
 			land.parent = transform;
 			currentPlanet = other.transform;
 		}
+		if (other.tag == "Player") {
+			other.GetComponent<Propulsion>().setBurnRate();
+			Destroy(this.gameObject);
+		}
 	}
 	
 	public bool IsGrounded() {
@@ -86,9 +91,7 @@ public class CreatureWalk : MonoBehaviour {
 			mousePos.y = mousePos.y - pos.y;
 			angle = Mathf.Atan2(mousePos.y, mousePos.x) * Mathf.Rad2Deg;
 			transform.rotation = Quaternion.Euler(new Vector3(0f, 0f, angle+270));
-			rigidbody2D.AddForce((-transform.up) * (5f+center.localScale.x));
-			if (innerGravity)
-				rigidbody2D.AddForce((-transform.up) * (center.localScale.x/1.333f));
+			//rigidbody2D.AddForce((-transform.up) * (.8f*center.localScale.x));
 		}
 	}
 }

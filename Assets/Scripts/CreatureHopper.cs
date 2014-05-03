@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class CreatureWalk : MonoBehaviour {
-	
+public class CreatureHopper : MonoBehaviour {
+
 	private float CameraDist, angle;
 	private Vector3 mousePos, direction, pos;
 	private bool doGravity;
@@ -18,6 +18,7 @@ public class CreatureWalk : MonoBehaviour {
 	void Start() {
 		CameraDist = Camera.main.transform.position.y - transform.position.y;
 		gravityCenters = new ArrayList();
+		rigidbody2D.AddForce(transform.right * 2000f);
 	}
 	
 	void FixedUpdate() {
@@ -32,13 +33,6 @@ public class CreatureWalk : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if (grounded) {
-			if (rigidbody2D.velocity.x > currentGravity/8)
-				rigidbody2D.velocity = Vector2.Lerp(rigidbody2D.velocity,Vector2.zero,Time.deltaTime);
-		}
-		else if (grounded || innerGravity) {
-			rigidbody2D.velocity = Vector2.Lerp(rigidbody2D.velocity,Vector2.zero,Time.deltaTime);
-		}
 		if (doGravity)
 			ApplyGravity();
 	}
@@ -86,9 +80,7 @@ public class CreatureWalk : MonoBehaviour {
 			mousePos.y = mousePos.y - pos.y;
 			angle = Mathf.Atan2(mousePos.y, mousePos.x) * Mathf.Rad2Deg;
 			transform.rotation = Quaternion.Euler(new Vector3(0f, 0f, angle+270));
-			rigidbody2D.AddForce((-transform.up) * (5f+center.localScale.x));
-			if (innerGravity)
-				rigidbody2D.AddForce((-transform.up) * (center.localScale.x/1.333f));
+			rigidbody2D.AddForce((-transform.up) * (.8f*center.localScale.x));
 		}
 	}
 }

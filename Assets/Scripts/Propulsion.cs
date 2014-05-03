@@ -22,6 +22,7 @@ public class Propulsion : MonoBehaviour {
 	private float cOxygen;
 	private Transform FuelMeter;
 	private Transform OxygenMeter;
+	private Vector3 start;
 
 	public Transform smokeEffect;
 	public Transform fireEffect;
@@ -34,6 +35,10 @@ public class Propulsion : MonoBehaviour {
 		cOxygen = oxygen;
 		FuelMeter = GameObject.FindGameObjectWithTag("Fuel").transform;
 		OxygenMeter = GameObject.FindGameObjectWithTag("Oxygen").transform;
+	}
+
+	public void setBurnRate() {
+		burnSpeed -= .03f;
 	}
 
 	void FixedUpdate() {
