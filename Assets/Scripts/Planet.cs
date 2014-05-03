@@ -17,6 +17,19 @@ public class Planet : MonoBehaviour {
 			modifier = Random.Range(8,22);
 		transform.localScale = new Vector3(transform.localScale.x+modifier,transform.localScale.y+modifier,transform.localScale.z);
 		transform.rotation = Quaternion.Euler(0f,0f,Random.Range(0,360));
+		int planetType = Random.Range(0,6);
+		if (planetType == 0)
+			SetupMoon1();
+		if (planetType == 1)
+			SetupMoon2();
+		if (planetType == 2)
+			SetupGrass1();
+		if (planetType == 3)
+			SetupGrass2();
+		if (planetType == 4)
+			SetupSand1();
+		if (planetType == 5)
+			SetupIce1();
 		StartCoroutine(VerifyInBounds(0.2f));
 	}
 
@@ -35,5 +48,29 @@ public class Planet : MonoBehaviour {
 			Destroy (gameObject);
 		start = false;
 		rigidbody2D.isKinematic = true;
+	}
+
+	void SetupMoon1() {
+		transform.FindChild("Texture").gameObject.renderer.material.mainTexture = Resources.Load("moon_1", typeof(Texture)) as Texture;
+	}
+
+	void SetupMoon2() {
+		transform.FindChild("Texture").gameObject.renderer.material.mainTexture = Resources.Load("moon_2", typeof(Texture)) as Texture;
+	}
+
+	void SetupGrass1() {
+		transform.FindChild("Texture").gameObject.renderer.material.mainTexture = Resources.Load("grass_1", typeof(Texture)) as Texture;
+	}
+
+	void SetupGrass2() {
+		transform.FindChild("Texture").gameObject.renderer.material.mainTexture = Resources.Load("grass_2", typeof(Texture)) as Texture;
+	}
+
+	void SetupSand1() {
+		transform.FindChild("Texture").gameObject.renderer.material.mainTexture = Resources.Load("sand_1", typeof(Texture)) as Texture;
+	}
+
+	void SetupIce1() {
+		transform.FindChild("Texture").gameObject.renderer.material.mainTexture = Resources.Load("ice_1", typeof(Texture)) as Texture;
 	}
 }

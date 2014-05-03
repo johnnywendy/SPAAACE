@@ -31,14 +31,7 @@ public class Propulsion : MonoBehaviour {
 				rigidbody2D.AddForce(Input.GetAxis("Horizontal") * currentGravity/1.4f * transform.right);
 			else
 				rigidbody2D.AddForce(Input.GetAxis("Horizontal") * currentGravity * transform.right);
-			rigidbody2D.AddForce((currentGravity/2 * -transform.up));
 		}
-		/*	if (rigidbody2D.velocity.x > currentGravity/8)
-				rigidbody2D.velocity = Vector2.Lerp(rigidbody2D.velocity,Vector2.zero,Time.deltaTime);
-		}
-		else if (grounded || innerGravity) {
-			rigidbody2D.velocity = Vector2.Lerp(rigidbody2D.velocity,Vector2.zero,Time.deltaTime);
-		}*/
 	}
 
 	// Update is called once per frame
