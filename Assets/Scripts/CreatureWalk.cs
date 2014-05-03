@@ -11,7 +11,6 @@ public class CreatureWalk : MonoBehaviour {
 	private bool grounded;
 	private Transform currentPlanet;
 	private float currentGravity;
-	private bool doOppositeGravity = false;
 	
 	public Transform landEffect;
 	
