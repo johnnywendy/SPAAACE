@@ -53,9 +53,9 @@ public class Propulsion : MonoBehaviour {
 		if (doGravity)
 			ApplyGravity();
 		if(Input.GetMouseButton(0)) {
-			mousePos = Input.mousePosition;
+			mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 			mousePos.z = CameraDist;
-			pos = Camera.main.WorldToScreenPoint(transform.position);
+			pos = transform.position;
 			mousePos.x = mousePos.x - pos.x;
 			mousePos.y = mousePos.y - pos.y;
 			angle = Mathf.Atan2(mousePos.y, mousePos.x) * Mathf.Rad2Deg;
