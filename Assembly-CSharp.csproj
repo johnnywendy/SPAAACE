@@ -49,10 +49,12 @@
      <Compile Include="Assets\Scripts\Decay.cs" />
      <Compile Include="Assets\Scripts\FollowTarget.cs" />
      <Compile Include="Assets\Scripts\GeneratePlanets.cs" />
+     <Compile Include="Assets\Scripts\GenerateStars.cs" />
      <Compile Include="Assets\Scripts\Gravity.cs" />
      <Compile Include="Assets\Scripts\ParallaxBackground.cs" />
      <Compile Include="Assets\Scripts\Planet.cs" />
      <Compile Include="Assets\Scripts\Propulsion.cs" />
+     <Compile Include="Assets\Scripts\Star.cs" />
      <None Include="Assets\Materials\FlatTexture.shader" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

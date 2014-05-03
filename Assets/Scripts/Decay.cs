@@ -23,6 +23,7 @@ public class Decay : MonoBehaviour {
 		if (other.tag == "Planet" && isThrust && !hit) {
 			hit = true;
 			Transform land = (Transform)Instantiate(landEffect, new Vector3(transform.position.x,transform.position.y,transform.position.z-10), Quaternion.identity);
+			land.renderer.material = other.renderer.material;
 			land.parent = transform;
 		}
 	}

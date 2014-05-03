@@ -1,12 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class GeneratePlanets : MonoBehaviour {
-
-	public GameObject planet;
+public class GenerateStars : MonoBehaviour {
+	
+	public GameObject star;
 	public int circumMod;
 	public float percentFull;
-
+	
 	// Use this for initialization
 	void Start () {
 		GameObject border = GameObject.FindGameObjectWithTag("Border");
@@ -62,7 +62,7 @@ public class GeneratePlanets : MonoBehaviour {
 			if (Random.Range(1,8) == 1) {
 				if (checks[index] != true) {
 					Vector2 point = (Vector2)ScrambledList[index];
-					Instantiate(planet,new Vector3(point.x+Random.Range(-30,30), point.y+Random.Range(-30,30), 1f),Quaternion.identity);
+					Instantiate(star,new Vector3(point.x+Random.Range(-10,10), point.y+Random.Range(-10,10), 30f),Quaternion.identity);
 					numOfPlanets++;
 					checks[index] = true;
 				}

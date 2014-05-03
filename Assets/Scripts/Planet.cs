@@ -78,5 +78,6 @@ public class Planet : MonoBehaviour {
 	void SetupIce1() {
 		renderer.material = Resources.Load("ice_border_1", typeof(Material)) as Material;
 		transform.FindChild("Texture").gameObject.renderer.material.mainTexture = Resources.Load("ice_1", typeof(Texture)) as Texture;
+		GetComponents<CircleCollider2D>()[0].sharedMaterial = Resources.Load("IcySurface", typeof(PhysicsMaterial2D)) as PhysicsMaterial2D;
 	}
 }

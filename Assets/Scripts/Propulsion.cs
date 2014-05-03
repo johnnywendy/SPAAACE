@@ -5,7 +5,11 @@ public class Propulsion : MonoBehaviour {
 
 	public float maxSpeed;
 	public float walkSpeed;
+	private float burnSpeed = 0.14f;
+	private float breathSpeed = 0.015f;
 
+	private float fuel = 100;
+	private float oxygen = 100;
 	private float CameraDist, angle;
 	private Vector3 mousePos, direction, pos;
 	private bool doGravity;
@@ -14,6 +18,10 @@ public class Propulsion : MonoBehaviour {
 	private bool grounded;
 	private Transform currentPlanet;
 	private float currentGravity;
+	private float cFuel;
+	private float cOxygen;
+	private Transform FuelMeter;
+	private Transform OxygenMeter;
 
 	public Transform smokeEffect;
 	public Transform fireEffect;
@@ -22,6 +30,10 @@ public class Propulsion : MonoBehaviour {
 	void Start() {
 		CameraDist = Camera.main.transform.position.y - transform.position.y;
 		gravityCenters = new ArrayList();
+		cFuel = fuel;
+		cOxygen = oxygen;
+		FuelMeter = GameObject.FindGameObjectWithTag("Fuel").transform;
+		OxygenMeter = GameObject.FindGameObjectWithTag("Oxygen").transform;
 	}
 
 	void FixedUpdate() {
@@ -32,10 +44,15 @@ public class Propulsion : MonoBehaviour {
 			else
 				rigidbody2D.AddForce(Input.GetAxis("Horizontal") * currentGravity * transform.right);
 		}
+		FuelMeter.localScale = new Vector3(cFuel/fuel * 3f,FuelMeter.localScale.y,FuelMeter.localScale.z);
+		OxygenMeter.localScale = new Vector3(cOxygen/oxygen * 3f,OxygenMeter.localScale.y,OxygenMeter.localScale.z);
 	}
 
 	// Update is called once per frame
 	void Update () {
+		if (cOxygen < 0) {
+			Destroy(this.gameObject);
+		}
 		if (grounded && Input.GetButton("Horizontal")) {
 			if (rigidbody2D.velocity.x > currentGravity/8)
 				rigidbody2D.velocity = Vector2.Lerp(rigidbody2D.velocity,Vector2.zero,Time.deltaTime);
@@ -43,9 +60,22 @@ public class Propulsion : MonoBehaviour {
 		else if (grounded || innerGravity) {
 			rigidbody2D.velocity = Vector2.Lerp(rigidbody2D.velocity,Vector2.zero,Time.deltaTime);
 		}
-		if (doGravity)
+		if (doGravity) {
 			ApplyGravity();
-		if(Input.GetMouseButton(0)) {
+			if (cOxygen < oxygen) {
+				cOxygen += 1;
+				OxygenMeter.position = new Vector3(OxygenMeter.position.x+(1*0.015f),OxygenMeter.position.y,OxygenMeter.position.z);
+			}
+			if (cFuel < fuel) {
+				cFuel += burnSpeed*2;
+				FuelMeter.position = new Vector3(FuelMeter.position.x+(burnSpeed*2*0.015f),FuelMeter.position.y,FuelMeter.position.z);
+			}
+		}
+		if (!doGravity) {
+			cOxygen -= breathSpeed;
+			OxygenMeter.position = new Vector3(OxygenMeter.position.x-(breathSpeed*0.015f),OxygenMeter.position.y,OxygenMeter.position.z);
+		}
+		if(Input.GetMouseButton(0) && cFuel > 0) {
 			mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 			mousePos.z = CameraDist;
 			pos = transform.position;
@@ -60,6 +90,8 @@ public class Propulsion : MonoBehaviour {
 			Transform particles2 = Instantiate(fireEffect, new Vector3(transform.position.x,transform.position.y,transform.position.z+1), Quaternion.identity) as Transform;
 			particles2.gameObject.rigidbody2D.velocity = rigidbody2D.velocity;
 			particles2.gameObject.rigidbody2D.AddForce((-transform.up) * 350f);
+			cFuel -= burnSpeed;
+			FuelMeter.position = new Vector3(FuelMeter.position.x-(burnSpeed*0.015f),FuelMeter.position.y,FuelMeter.position.z);
 		}
 		if (Mathf.Abs(rigidbody2D.velocity.x) > maxSpeed && Mathf.Abs(rigidbody2D.velocity.y) > maxSpeed && !doGravity) {
 			rigidbody2D.velocity = Vector3.Lerp (rigidbody2D.velocity,Vector3.zero,Time.deltaTime*2);
@@ -91,6 +123,7 @@ public class Propulsion : MonoBehaviour {
 		if (other.tag == "Planet") { // && (Mathf.Abs(rigidbody2D.velocity.x) > maxSpeed/5 || Mathf.Abs(rigidbody2D.velocity.y) > maxSpeed/5))
 			grounded = true;
 			Transform land = (Transform)Instantiate(landEffect, new Vector3(transform.position.x,transform.position.y,transform.position.z-10), Quaternion.identity);
+			land.renderer.material = other.renderer.material;
 			land.parent = transform;
 			currentPlanet = other.transform;
 		}
