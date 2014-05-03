@@ -6,6 +6,8 @@ public class Planet : MonoBehaviour {
 	public bool inBounds = false;
 	private bool start = true;
 
+	public GameObject creature;
+
 	// Use this for initialization
 	void Start () {
 		int modifier = 0, randomizer = Random.Range (0,10);
@@ -20,6 +22,7 @@ public class Planet : MonoBehaviour {
 		int planetType = Random.Range(0,6);
 		if (planetType == 0)
 			SetupMoon1();
+			Instantiate (creature);
 		if (planetType == 1)
 			SetupMoon2();
 		if (planetType == 2)
