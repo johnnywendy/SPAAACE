@@ -51,26 +51,32 @@ public class Planet : MonoBehaviour {
 	}
 
 	void SetupMoon1() {
+		renderer.material = Resources.Load("moon_border_1", typeof(Material)) as Material;
 		transform.FindChild("Texture").gameObject.renderer.material.mainTexture = Resources.Load("moon_1", typeof(Texture)) as Texture;
 	}
 
 	void SetupMoon2() {
+		renderer.material = Resources.Load("moon_border_2", typeof(Material)) as Material;
 		transform.FindChild("Texture").gameObject.renderer.material.mainTexture = Resources.Load("moon_2", typeof(Texture)) as Texture;
 	}
 
 	void SetupGrass1() {
+		renderer.material = Resources.Load("grass_border_1", typeof(Material)) as Material;
 		transform.FindChild("Texture").gameObject.renderer.material.mainTexture = Resources.Load("grass_1", typeof(Texture)) as Texture;
 	}
 
 	void SetupGrass2() {
+		renderer.material = Resources.Load("grass_border_2", typeof(Material)) as Material;
 		transform.FindChild("Texture").gameObject.renderer.material.mainTexture = Resources.Load("grass_2", typeof(Texture)) as Texture;
 	}
 
 	void SetupSand1() {
+		renderer.material = Resources.Load("sand_border_1", typeof(Material)) as Material;
 		transform.FindChild("Texture").gameObject.renderer.material.mainTexture = Resources.Load("sand_1", typeof(Texture)) as Texture;
 	}
 
 	void SetupIce1() {
+		renderer.material = Resources.Load("ice_border_1", typeof(Material)) as Material;
 		transform.FindChild("Texture").gameObject.renderer.material.mainTexture = Resources.Load("ice_1", typeof(Texture)) as Texture;
 	}
 }
