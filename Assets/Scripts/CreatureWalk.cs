@@ -11,7 +11,8 @@ public class CreatureWalk : MonoBehaviour {
 	private bool grounded;
 	private Transform currentPlanet;
 	private float currentGravity;
-
+	private bool doOppositeGravity = false;
+	
 	public Transform landEffect;
 	
 	void Start() {
@@ -40,6 +41,8 @@ public class CreatureWalk : MonoBehaviour {
 		}
 		if (doGravity)
 			ApplyGravity();
+		if (doOppositeGravity)
+			ApplyOppositeGravity();
 	}
 	
 	void OnTriggerExit2D(Collider2D other) {
@@ -54,6 +57,9 @@ public class CreatureWalk : MonoBehaviour {
 			innerGravity = false;
 		if (other.tag == "Planet")
 			grounded = false;
+		if (other.tag == "Player") {
+			doOppositeGravity = false;
+		}
 	}
 	
 	void OnTriggerEnter2D(Collider2D other) {
@@ -69,6 +75,9 @@ public class CreatureWalk : MonoBehaviour {
 			Transform land = (Transform)Instantiate(landEffect, new Vector3(transform.position.x,transform.position.y,transform.position.z-10), Quaternion.identity);
 			land.parent = transform;
 			currentPlanet = other.transform;
+		}
+		if (other.tag == "Player") {
+			doOppositeGravity = true;
 		}
 	}
 	
@@ -88,6 +97,22 @@ public class CreatureWalk : MonoBehaviour {
 			rigidbody2D.AddForce((-transform.up) * (5f+center.localScale.x));
 			if (innerGravity)
 				rigidbody2D.AddForce((-transform.up) * (center.localScale.x/1.333f));
+		}
+	}
+	
+	void ApplyOppositeGravity ()
+	{
+		foreach (Transform center in gravityCenters) {
+			mousePos = Camera.main.WorldToScreenPoint(transform.position);
+			mousePos.z = CameraDist;
+			pos = Camera.main.WorldToScreenPoint(center.position);
+			mousePos.x = mousePos.x - pos.x;
+			mousePos.y = mousePos.y - pos.y;
+			angle = Mathf.Atan2(mousePos.y, mousePos.x) * Mathf.Rad2Deg;
+			transform.rotation = Quaternion.Euler(new Vector3(0f, 0f, angle+270));
+			rigidbody2D.AddForce((transform.up) * (5f+center.localScale.x));
+			if (innerGravity)
+				rigidbody2D.AddForce((transform.up) * (center.localScale.x/1.333f));
 		}
 	}
 }
