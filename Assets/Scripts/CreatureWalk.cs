@@ -12,6 +12,7 @@ public class CreatureWalk : MonoBehaviour {
 	private Transform currentPlanet;
 	private float currentGravity;
 	public float timer = 5f;
+	private float forceModifier = 1f;
 	
 	public Transform landEffect;
 	
@@ -24,13 +25,14 @@ public class CreatureWalk : MonoBehaviour {
 		if (grounded) {
 			currentGravity = 5+currentPlanet.localScale.x;
 			if (rigidbody2D.velocity.x > currentGravity/16)
-				rigidbody2D.AddForce(1 * currentGravity/1.4f * transform.right);
+				rigidbody2D.velocity = forceModifier * currentGravity/1.4f * transform.right;
 			else
-				rigidbody2D.AddForce(1 * currentGravity * transform.right);
+				rigidbody2D.velocity = forceModifier * currentGravity/1.4f * transform.right;
 		}
 		timer -= Time.deltaTime;
 		if (timer < 0) {
-			print ("hello");		
+			forceModifier = forceModifier * Random.Range(-1f, 1f);
+			timer = 5f;	
 		}
 
 	}
