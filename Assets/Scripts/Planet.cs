@@ -6,8 +6,10 @@ public class Planet : MonoBehaviour {
 	public bool inBounds = false;
 	private bool start = true;
 	private ArrayList radiusPoints;
+	private ArrayList radiusPoints2;
 	private ArrayList children = new ArrayList();
 	private float numPoints;
+	private float numPoints2;
 
 	// Use this for initialization
 	void Start () {
@@ -29,6 +31,16 @@ public class Planet : MonoBehaviour {
 		radiusPoints = new ArrayList();
 		for (int i = 0; i < numPoints; i++) {
 			radiusPoints.Add(new Vector2(Mathf.Sin(current) * radius,Mathf.Cos(current) * radius));
+			current += step;
+		}
+
+		float radius2 = GetComponents<CircleCollider2D>()[0].radius*transform.localScale.x+1.2f;
+		numPoints2 = Mathf.Floor((radius*4)/2)*2;
+		float step2 = (Mathf.PI*2) / numPoints;
+		float current2 = 0;
+		radiusPoints2 = new ArrayList();
+		for (int i = 0; i < numPoints; i++) {
+			radiusPoints2.Add(new Vector2(Mathf.Sin(current) * radius,Mathf.Cos(current) * radius));
 			current += step;
 		}
 
@@ -97,37 +109,101 @@ public class Planet : MonoBehaviour {
 			children.Add(Crater);
 			SetRotation(Crater);
 		}
+		int numRes = (int)Random.Range(0,numPoints2/6);
+		for (int i = 0; i < numRes; i++) {
+			int index = (int)Random.Range(0,numPoints2);
+			Vector2 pos = (Vector2)radiusPoints[index];
+			GameObject res = (GameObject)Instantiate(Resources.Load("Resource", typeof(GameObject)),new Vector3(transform.position.x+pos.x,transform.position.y+pos.y,-3f),Quaternion.identity);
+			children.Add(res);
+			SetRotation(res);
+		}
 	}
 
 	void SetupMoon2() {
 		renderer.material = Resources.Load("moon_border_2", typeof(Material)) as Material;
 		transform.FindChild("Texture").gameObject.renderer.material.mainTexture = Resources.Load("moon_2", typeof(Texture)) as Texture;
+		int numRes = (int)Random.Range(0,numPoints2/6);
+		for (int i = 0; i < numRes; i++) {
+			int index = (int)Random.Range(0,numPoints2);
+			Vector2 pos = (Vector2)radiusPoints[index];
+			GameObject res = (GameObject)Instantiate(Resources.Load("Resource", typeof(GameObject)),new Vector3(transform.position.x+pos.x,transform.position.y+pos.y,-3f),Quaternion.identity);
+			children.Add(res);
+			SetRotation(res);
+		}
 	}
 
 	void SetupGrass1() {
 		renderer.material = Resources.Load("grass_border_1", typeof(Material)) as Material;
 		transform.FindChild("Texture").gameObject.renderer.material.mainTexture = Resources.Load("grass_1", typeof(Texture)) as Texture;
+		int numRes = (int)Random.Range(0,numPoints2/6);
+		for (int i = 0; i < numRes; i++) {
+			int index = (int)Random.Range(0,numPoints2);
+			Vector2 pos = (Vector2)radiusPoints[index];
+			GameObject res = (GameObject)Instantiate(Resources.Load("Resource", typeof(GameObject)),new Vector3(transform.position.x+pos.x,transform.position.y+pos.y,-3f),Quaternion.identity);
+			children.Add(res);
+			SetRotation(res);
+		}
 	}
 
 	void SetupGrass2() {
 		renderer.material = Resources.Load("grass_border_2", typeof(Material)) as Material;
 		transform.FindChild("Texture").gameObject.renderer.material.mainTexture = Resources.Load("grass_2", typeof(Texture)) as Texture;
+		int numTrees = (int)Random.Range(numPoints/6,numPoints/2);
+		for (int i = 0; i < numTrees; i++) {
+			int index = (int)Random.Range(0,numPoints);
+			Vector2 pos = (Vector2)radiusPoints[index];
+			GameObject tree = (GameObject)Instantiate(Resources.Load("grassTree1", typeof(GameObject)),new Vector3(transform.position.x+pos.x,transform.position.y+pos.y,2f),Quaternion.identity);
+			children.Add(tree);
+			SetRotation(tree);
+		}
+		int numRes = (int)Random.Range(0,numPoints2/6);
+		for (int i = 0; i < numRes; i++) {
+			int index = (int)Random.Range(0,numPoints2);
+			Vector2 pos = (Vector2)radiusPoints[index];
+			GameObject res = (GameObject)Instantiate(Resources.Load("Resource", typeof(GameObject)),new Vector3(transform.position.x+pos.x,transform.position.y+pos.y,-3f),Quaternion.identity);
+			children.Add(res);
+			SetRotation(res);
+		}
 	}
 
 	void SetupSand1() {
 		renderer.material = Resources.Load("sand_border_1", typeof(Material)) as Material;
 		transform.FindChild("Texture").gameObject.renderer.material.mainTexture = Resources.Load("sand_1", typeof(Texture)) as Texture;
+		int numRes = (int)Random.Range(0,numPoints2/6);
+		for (int i = 0; i < numRes; i++) {
+			int index = (int)Random.Range(0,numPoints2);
+			Vector2 pos = (Vector2)radiusPoints[index];
+			GameObject res = (GameObject)Instantiate(Resources.Load("Resource", typeof(GameObject)),new Vector3(transform.position.x+pos.x,transform.position.y+pos.y,-3f),Quaternion.identity);
+			children.Add(res);
+			SetRotation(res);
+		}
 	}
 
 	void SetupIce1() {
 		renderer.material = Resources.Load("ice_border_1", typeof(Material)) as Material;
 		transform.FindChild("Texture").gameObject.renderer.material.mainTexture = Resources.Load("ice_1", typeof(Texture)) as Texture;
 		GetComponents<CircleCollider2D>()[0].sharedMaterial = Resources.Load("IcySurface", typeof(PhysicsMaterial2D)) as PhysicsMaterial2D;
+		int numRes = (int)Random.Range(0,numPoints2/6);
+		for (int i = 0; i < numRes; i++) {
+			int index = (int)Random.Range(0,numPoints2);
+			Vector2 pos = (Vector2)radiusPoints[index];
+			GameObject res = (GameObject)Instantiate(Resources.Load("Resource", typeof(GameObject)),new Vector3(transform.position.x+pos.x,transform.position.y+pos.y,-3f),Quaternion.identity);
+			children.Add(res);
+			SetRotation(res);
+		}
 	}
 
 	void SetupSlime1() {
 		renderer.material = Resources.Load("slime_border_1", typeof(Material)) as Material;
 		transform.FindChild("Texture").gameObject.renderer.material.mainTexture = Resources.Load("slime_1", typeof(Texture)) as Texture;
 		GetComponents<CircleCollider2D>()[0].sharedMaterial = Resources.Load("BouncySurface", typeof(PhysicsMaterial2D)) as PhysicsMaterial2D;
+		int numRes = (int)Random.Range(0,numPoints2/6);
+		for (int i = 0; i < numRes; i++) {
+			int index = (int)Random.Range(0,numPoints2);
+			Vector2 pos = (Vector2)radiusPoints[index];
+			GameObject res = (GameObject)Instantiate(Resources.Load("Resource", typeof(GameObject)),new Vector3(transform.position.x+pos.x,transform.position.y+pos.y,-3f),Quaternion.identity);
+			children.Add(res);
+			SetRotation(res);
+		}
 	}
 }
