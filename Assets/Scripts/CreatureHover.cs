@@ -1,9 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class CreatureFly : MonoBehaviour {
-
-	public float flySpeed = 1500f;
+public class CreatureHover : MonoBehaviour {
 
 	private float CameraDist, angle;
 	private Vector3 mousePos, direction, pos;
@@ -13,37 +11,30 @@ public class CreatureFly : MonoBehaviour {
 	private bool grounded;
 	private Transform currentPlanet;
 	private float currentGravity;
+	private bool doOppositeGravity = false;
 	
 	public Transform landEffect;
 	
 	void Start() {
 		CameraDist = Camera.main.transform.position.y - transform.position.y;
 		gravityCenters = new ArrayList();
-		float temp = Random.Range(0, 4);
-		transform.position = new Vector2 (-100, 100);
-		if (temp == 0)
-			rigidbody2D.AddForce (transform.up * flySpeed);
-		if (temp == 1)
-			rigidbody2D.AddForce (transform.up * flySpeed);
-		if (temp == 2)
-			rigidbody2D.AddForce (transform.right * flySpeed);
-		if (temp == 3)
-			rigidbody2D.AddForce (transform.right * flySpeed);
+		rigidbody2D.AddForce(transform.right * 300f);
 	}
 	
 	void FixedUpdate() {
 		if (grounded) {
 			currentGravity = 5+currentPlanet.localScale.x;
 			if (rigidbody2D.velocity.x > currentGravity/16)
-				rigidbody2D.AddForce(1f * currentGravity/1.4f * transform.right);
+				rigidbody2D.AddForce(1 * currentGravity/1.4f * transform.right);
 			else
-				rigidbody2D.AddForce(1f * currentGravity * transform.right);
+				rigidbody2D.AddForce(1 * currentGravity * transform.right);
 		}
 	}
 	
 	// Update is called once per frame
 	void Update () {
-
+		if (doGravity)
+			ApplyGravity();
 	}
 	
 	void OnTriggerExit2D(Collider2D other) {
@@ -74,10 +65,6 @@ public class CreatureFly : MonoBehaviour {
 			land.parent = transform;
 			currentPlanet = other.transform;
 		}
-		if (other.tag == "Player") {
-			other.GetComponent<Propulsion>().setBurnRate();
-			Destroy(this.gameObject);
-		}
 	}
 	
 	public bool IsGrounded() {
@@ -93,7 +80,7 @@ public class CreatureFly : MonoBehaviour {
 			mousePos.y = mousePos.y - pos.y;
 			angle = Mathf.Atan2(mousePos.y, mousePos.x) * Mathf.Rad2Deg;
 			transform.rotation = Quaternion.Euler(new Vector3(0f, 0f, angle+270));
-			//rigidbody2D.AddForce((-transform.up) * (.8f*center.localScale.x));
+			rigidbody2D.AddForce((-transform.up) * (.8f*center.localScale.x));
 		}
 	}
 }
