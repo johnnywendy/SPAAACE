@@ -10,9 +10,15 @@ public class Planet : MonoBehaviour {
 	private ArrayList children = new ArrayList();
 	private float numPoints;
 	private float numPoints2;
+	private GameObject ItemsObject;
+	private GameObject ResObject;
 
 	// Use this for initialization
 	void Start () {
+		ItemsObject = GameObject.Find ("PlanetObjects");
+		ResObject = GameObject.Find ("PlanetResources");
+		//transform.Find("Planet Map Icon").localScale += transform.localScale;
+		//transform.Find("Planet Map Icon").parent = GameObject.Find("PlanetMapIcons").transform;
 		int modifier = 0, randomizer = Random.Range (0,10);
 		if (randomizer < 5)
 			modifier = Random.Range(-2,12);
@@ -108,6 +114,7 @@ public class Planet : MonoBehaviour {
 			GameObject Crater = (GameObject)Instantiate(Resources.Load("moonCrater1", typeof(GameObject)),new Vector3(transform.position.x+pos.x,transform.position.y+pos.y,2f),Quaternion.identity);
 			children.Add(Crater);
 			SetRotation(Crater);
+			Crater.transform.parent = ItemsObject.transform;
 		}
 		int numRes = (int)Random.Range(0,numPoints2/6);
 		for (int i = 0; i < numRes; i++) {
@@ -116,6 +123,7 @@ public class Planet : MonoBehaviour {
 			GameObject res = (GameObject)Instantiate(Resources.Load("Resource", typeof(GameObject)),new Vector3(transform.position.x+pos.x,transform.position.y+pos.y,-3f),Quaternion.identity);
 			children.Add(res);
 			SetRotation(res);
+			res.transform.parent = ResObject.transform;
 		}
 	}
 
@@ -129,6 +137,7 @@ public class Planet : MonoBehaviour {
 			GameObject res = (GameObject)Instantiate(Resources.Load("Resource", typeof(GameObject)),new Vector3(transform.position.x+pos.x,transform.position.y+pos.y,-3f),Quaternion.identity);
 			children.Add(res);
 			SetRotation(res);
+			res.transform.parent = ResObject.transform;
 		}
 	}
 
@@ -142,6 +151,7 @@ public class Planet : MonoBehaviour {
 			GameObject res = (GameObject)Instantiate(Resources.Load("Resource", typeof(GameObject)),new Vector3(transform.position.x+pos.x,transform.position.y+pos.y,-3f),Quaternion.identity);
 			children.Add(res);
 			SetRotation(res);
+			res.transform.parent = ResObject.transform;
 		}
 	}
 
@@ -155,6 +165,7 @@ public class Planet : MonoBehaviour {
 			GameObject tree = (GameObject)Instantiate(Resources.Load("grassTree1", typeof(GameObject)),new Vector3(transform.position.x+pos.x,transform.position.y+pos.y,2f),Quaternion.identity);
 			children.Add(tree);
 			SetRotation(tree);
+			tree.transform.parent = ItemsObject.transform;
 		}
 		int numRes = (int)Random.Range(0,numPoints2/6);
 		for (int i = 0; i < numRes; i++) {
@@ -163,6 +174,7 @@ public class Planet : MonoBehaviour {
 			GameObject res = (GameObject)Instantiate(Resources.Load("Resource", typeof(GameObject)),new Vector3(transform.position.x+pos.x,transform.position.y+pos.y,-3f),Quaternion.identity);
 			children.Add(res);
 			SetRotation(res);
+			res.transform.parent = ResObject.transform;
 		}
 	}
 
@@ -176,6 +188,7 @@ public class Planet : MonoBehaviour {
 			GameObject res = (GameObject)Instantiate(Resources.Load("Resource", typeof(GameObject)),new Vector3(transform.position.x+pos.x,transform.position.y+pos.y,-3f),Quaternion.identity);
 			children.Add(res);
 			SetRotation(res);
+			res.transform.parent = ResObject.transform;
 		}
 	}
 
@@ -190,6 +203,7 @@ public class Planet : MonoBehaviour {
 			GameObject res = (GameObject)Instantiate(Resources.Load("Resource", typeof(GameObject)),new Vector3(transform.position.x+pos.x,transform.position.y+pos.y,-3f),Quaternion.identity);
 			children.Add(res);
 			SetRotation(res);
+			res.transform.parent = ResObject.transform;
 		}
 	}
 
@@ -204,6 +218,7 @@ public class Planet : MonoBehaviour {
 			GameObject res = (GameObject)Instantiate(Resources.Load("Resource", typeof(GameObject)),new Vector3(transform.position.x+pos.x,transform.position.y+pos.y,-3f),Quaternion.identity);
 			children.Add(res);
 			SetRotation(res);
+			res.transform.parent = ResObject.transform;
 		}
 	}
 }

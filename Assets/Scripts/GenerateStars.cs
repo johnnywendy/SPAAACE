@@ -6,6 +6,7 @@ public class GenerateStars : MonoBehaviour {
 	public GameObject star;
 	public int circumMod;
 	public float percentFull;
+	public GameObject StarsObject;
 	
 	// Use this for initialization
 	void Start () {
@@ -62,7 +63,8 @@ public class GenerateStars : MonoBehaviour {
 			if (Random.Range(1,8) == 1) {
 				if (checks[index] != true) {
 					Vector2 point = (Vector2)ScrambledList[index];
-					Instantiate(star,new Vector3(point.x+Random.Range(-10,10), point.y+Random.Range(-10,10), 30f),Quaternion.identity);
+					GameObject sta = (GameObject)Instantiate(star,new Vector3(point.x+Random.Range(-10,10), point.y+Random.Range(-10,10), 30f),Quaternion.identity);
+					sta.transform.parent = StarsObject.transform;
 					numOfPlanets++;
 					checks[index] = true;
 				}

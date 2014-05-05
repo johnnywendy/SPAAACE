@@ -6,6 +6,7 @@ public class GeneratePlanets : MonoBehaviour {
 	public GameObject planet;
 	public int circumMod;
 	public float percentFull;
+	public GameObject PlanetsObject;
 
 	// Use this for initialization
 	void Start () {
@@ -62,7 +63,8 @@ public class GeneratePlanets : MonoBehaviour {
 			if (Random.Range(1,8) == 1) {
 				if (checks[index] != true) {
 					Vector2 point = (Vector2)ScrambledList[index];
-					Instantiate(planet,new Vector3(point.x+Random.Range(-30,30), point.y+Random.Range(-30,30), 1f),Quaternion.identity);
+					GameObject plan = (GameObject)Instantiate(planet,new Vector3(point.x+Random.Range(-30,30), point.y+Random.Range(-30,30), 1f),Quaternion.identity);
+					plan.transform.parent = PlanetsObject.transform;
 					numOfPlanets++;
 					checks[index] = true;
 				}
@@ -71,5 +73,12 @@ public class GeneratePlanets : MonoBehaviour {
 			if (index > ScrambledList.Count-1) index = 0;
 		}
 		border.GetComponent<CircleCollider2D>().radius += 75;
+		StartCoroutine(Consolidate(0.3f));
+	}
+
+	IEnumerator Consolidate(float waitTime) {
+		yield return new WaitForSeconds(waitTime);
+		//GameObject.Find("Planets").GetComponent<CombineChildrenExtended>().Combine();
+		//GameObject.Find("PlanetObjects").GetComponent<CombineChildrenExtended>().Combine();
 	}
 }

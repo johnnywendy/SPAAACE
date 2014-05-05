@@ -23,6 +23,7 @@ public class Propulsion : MonoBehaviour {
 	private Transform FuelMeter;
 	private Transform OxygenMeter;
 	private Vector3 start;
+	private float resources = 0f;
 
 	public Transform smokeEffect;
 	public Transform fireEffect;
@@ -132,6 +133,38 @@ public class Propulsion : MonoBehaviour {
 			land.parent = transform;
 			currentPlanet = other.transform;
 		}
+		if (other.tag == "Resource") {
+			Destroy(other.gameObject);
+			resources += 1;
+			UpdateValues();
+		}
+	}
+
+	void UpdateValues() {
+		if (resources > 5) {
+			burnSpeed = 0.16f;
+			breathSpeed = 0.013f;
+		}
+		if (resources > 10) {
+			burnSpeed = 0.14f;
+			breathSpeed = 0.011f;
+		}
+		if (resources > 15) {
+			burnSpeed = 0.12f;
+			breathSpeed = 0.009f;
+		}
+		if (resources > 20) {
+			burnSpeed = 0.10f;
+			breathSpeed = 0.007f;
+		}
+		if (resources > 25) {
+			burnSpeed = 0.08f;
+			breathSpeed = 0.005f;
+		}
+		if (resources > 30) {
+			burnSpeed = 0.06f;
+			breathSpeed = 0.002f;
+		}
 	}
 
 	public bool IsGrounded() {
@@ -147,9 +180,9 @@ public class Propulsion : MonoBehaviour {
 			mousePos.y = mousePos.y - pos.y;
 			angle = Mathf.Atan2(mousePos.y, mousePos.x) * Mathf.Rad2Deg;
 			transform.rotation = Quaternion.Euler(new Vector3(0f, 0f, angle+270));
-			rigidbody2D.AddForce((-transform.up) * (5f+center.localScale.x));
+			rigidbody2D.AddForce((-transform.up) * (3f+center.localScale.x));
 			if (innerGravity)
-				rigidbody2D.AddForce((-transform.up) * (center.localScale.x/1.333f));
+				rigidbody2D.AddForce((-transform.up) * (center.localScale.x/1.666f));
 		}
 	}
 }

@@ -2,9 +2,10 @@
 using System.Collections;
 
 public class CreatureFly : MonoBehaviour {
-
+	
 	public float flySpeed = 1500f;
-
+	public float maxSpeed;
+	
 	private float CameraDist, angle;
 	private Vector3 mousePos, direction, pos;
 	private bool doGravity;
@@ -13,14 +14,18 @@ public class CreatureFly : MonoBehaviour {
 	private bool grounded;
 	private Transform currentPlanet;
 	private float currentGravity;
+	private Vector3 dir;
+	private string action;
+	private bool check;
 	
 	public Transform landEffect;
 	
 	void Start() {
+		maxSpeed = Random.Range (2f,8f);
 		CameraDist = Camera.main.transform.position.y - transform.position.y;
 		gravityCenters = new ArrayList();
 		float temp = Random.Range(0, 4);
-		transform.position = new Vector2 (-100, 100);
+		transform.position = new Vector2 (Random.Range(-50, -500), Random.Range(50, 500));
 		if (temp == 0)
 			rigidbody2D.AddForce (transform.up * flySpeed);
 		if (temp == 1)
@@ -31,69 +36,37 @@ public class CreatureFly : MonoBehaviour {
 			rigidbody2D.AddForce (transform.right * flySpeed);
 	}
 	
-	void FixedUpdate() {
-		if (grounded) {
-			currentGravity = 5+currentPlanet.localScale.x;
-			if (rigidbody2D.velocity.x > currentGravity/16)
-				rigidbody2D.AddForce(1f * currentGravity/1.4f * transform.right);
-			else
-				rigidbody2D.AddForce(1f * currentGravity * transform.right);
+	IEnumerator ChangeDirection(float waitTime) {
+		yield return new WaitForSeconds(waitTime);
+		int change = (int)Random.Range(0,4);
+		if (change > 1) {
+			action = "turn";
+			if (change == 2)
+				dir = transform.right;
+			if (change == 3)
+				dir = -transform.right;
 		}
+		else
+			action = "straight";
+		float temp = Random.Range(0,1);
+		check = false;
+		StartCoroutine(ChangeDirection(temp));
 	}
 	
 	// Update is called once per frame
 	void Update () {
-
+		if (action == "turn")
+			rigidbody2D.AddForce(dir*flySpeed/Random.Range(25,125));
+		else if (!check) {
+			check = true;
+			StartCoroutine(ChangeDirection(Random.Range(1,6)));
+		}
+		if (Mathf.Abs(rigidbody2D.velocity.x) > maxSpeed && Mathf.Abs(rigidbody2D.velocity.y) > maxSpeed && !doGravity)
+			rigidbody2D.velocity = Vector3.Lerp (rigidbody2D.velocity,Vector3.zero,Time.deltaTime*2);
 	}
-	
+
 	void OnTriggerExit2D(Collider2D other) {
 		if (other.tag == "Border")
 			transform.position = new Vector3(-transform.position.x,-transform.position.y,transform.position.z);
-		if (other.tag == "Atmosphere") {
-			gravityCenters.Remove(other.transform);
-			if (gravityCenters.Count <= 0)
-				doGravity = false;
-		}
-		if (other.tag == "Inner")
-			innerGravity = false;
-		if (other.tag == "Planet")
-			grounded = false;
-	}
-	
-	void OnTriggerEnter2D(Collider2D other) {
-		if (other.tag == "Atmosphere") {
-			rigidbody2D.velocity = Vector3.Lerp(rigidbody2D.velocity,Vector3.zero,Time.deltaTime*20);
-			gravityCenters.Add(other.transform);
-			doGravity = true;
-		}
-		if (other.tag == "Inner")
-			innerGravity = true;
-		if (other.tag == "Planet") {
-			grounded = true;
-			Transform land = (Transform)Instantiate(landEffect, new Vector3(transform.position.x,transform.position.y,transform.position.z-10), Quaternion.identity);
-			land.parent = transform;
-			currentPlanet = other.transform;
-		}
-		if (other.tag == "Player") {
-			other.GetComponent<Propulsion>().setBurnRate();
-			Destroy(this.gameObject);
-		}
-	}
-	
-	public bool IsGrounded() {
-		return doGravity;
-	}
-	
-	void ApplyGravity() {
-		foreach (Transform center in gravityCenters) {
-			mousePos = Camera.main.WorldToScreenPoint(transform.position);
-			mousePos.z = CameraDist;
-			pos = Camera.main.WorldToScreenPoint(center.position);
-			mousePos.x = mousePos.x - pos.x;
-			mousePos.y = mousePos.y - pos.y;
-			angle = Mathf.Atan2(mousePos.y, mousePos.x) * Mathf.Rad2Deg;
-			transform.rotation = Quaternion.Euler(new Vector3(0f, 0f, angle+270));
-			//rigidbody2D.AddForce((-transform.up) * (.8f*center.localScale.x));
-		}
 	}
 }
