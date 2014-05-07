@@ -7,4 +7,9 @@ public class Star : MonoBehaviour {
 		if (other.tag == "Star")
 			Destroy (other.gameObject.transform.parent.gameObject);
 	}
+
+	void Update() {
+		if (!GetComponent<SpriteRenderer>().isVisible)
+			Destroy(this.gameObject);
+	}
 }

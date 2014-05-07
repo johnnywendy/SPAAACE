@@ -5,10 +5,14 @@ public class FollowTarget : MonoBehaviour {
 
 	public Transform target;
 	public bool relativeToScreen;
+	public bool rightSide;
+	public bool topHalf;
 	public float Xoffset; // (-14, 6.8) (-14,7.4)
 	public float Yoffset;
+	private Vector2 dimensions;
 
 	void Start() {
+		dimensions = CalculateScreenSizeInWorldCoords();
 		Physics2D.IgnoreLayerCollision (LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Creatures"), true);
 	}
 
@@ -17,12 +21,18 @@ public class FollowTarget : MonoBehaviour {
 		if (!relativeToScreen)
 			transform.position = new Vector3(target.position.x+Xoffset,target.position.y+Yoffset,transform.position.z);
 		if (relativeToScreen) {
-			Vector2 dimensions = CalculateScreenSizeInWorldCoords();
-			transform.position = new Vector3(target.position.x-(dimensions.x/2)+Xoffset,target.position.y+(dimensions.y/2)+Yoffset,transform.position.z);
+			if (!rightSide && topHalf)
+				transform.position = new Vector3(target.position.x-(dimensions.x/2)+Xoffset,target.position.y+(dimensions.y/2)+Yoffset,transform.position.z);
+			if (rightSide && topHalf)
+				transform.position = new Vector3(target.position.x+(dimensions.x/2)+Xoffset,target.position.y+(dimensions.y/2)+Yoffset,transform.position.z);
+			if (!rightSide && !topHalf)
+				transform.position = new Vector3(target.position.x-(dimensions.x/2)+Xoffset,target.position.y-(dimensions.y/2)+Yoffset,transform.position.z);
+			if (rightSide && !topHalf)
+				transform.position = new Vector3(target.position.x+(dimensions.x/2)+Xoffset,target.position.y-(dimensions.y/2)+Yoffset,transform.position.z);
 		}
 	}
 
-	Vector2 CalculateScreenSizeInWorldCoords() {
+	public Vector2 CalculateScreenSizeInWorldCoords() {
 		Vector3 p1 = Camera.main.ViewportToWorldPoint(new Vector3(0,0,Camera.main.nearClipPlane));
 		Vector3 p2 = Camera.main.ViewportToWorldPoint(new Vector3(1,0,Camera.main.nearClipPlane));
 		Vector3 p3 = Camera.main.ViewportToWorldPoint(new Vector3(1,1,Camera.main.nearClipPlane));

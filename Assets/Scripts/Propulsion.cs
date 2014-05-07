@@ -82,6 +82,11 @@ public class Propulsion : MonoBehaviour {
 			OxygenMeter.position = new Vector3(OxygenMeter.position.x-(breathSpeed*0.015f),OxygenMeter.position.y,OxygenMeter.position.z);
 		}
 		if(Input.GetMouseButton(0) && cFuel > 0) {
+			RaycastHit hit;
+			Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+			if (Physics.Raycast(ray, out hit))
+				if (hit.collider.tag == "Button")
+					return;
 			mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 			mousePos.z = CameraDist;
 			pos = transform.position;

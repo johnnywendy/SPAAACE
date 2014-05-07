@@ -7,7 +7,12 @@ public class GenerateStars : MonoBehaviour {
 	public int circumMod;
 	public float percentFull;
 	public GameObject StarsObject;
-	
+
+	private bool[] checks;
+	private ArrayList ScrambledList;
+	private int index;
+	private float numOfPlanets;
+
 	// Use this for initialization
 	void Start () {
 		GameObject border = GameObject.FindGameObjectWithTag("Border");
@@ -49,29 +54,33 @@ public class GenerateStars : MonoBehaviour {
 					intersections.Add(new Vector2((Dx/D),(Dy/D)));
 			}
 		}
-		bool[] checks = new bool[intersections.Count];
-		ArrayList ScrambledList = new ArrayList();
-		int index;
+		checks = new bool[intersections.Count];
+		ScrambledList = new ArrayList();
 		while (intersections.Count > 0) {
 			index = Random.Range(0,intersections.Count);
 			ScrambledList.Add(intersections[index]);
 			intersections.RemoveAt(index);
 		}
-		float numOfPlanets = 1f;
+		numOfPlanets = 1f;
 		index = 0;
-		while (numOfPlanets/ScrambledList.Count < percentFull/100) {
-			if (Random.Range(1,8) == 1) {
-				if (checks[index] != true) {
-					Vector2 point = (Vector2)ScrambledList[index];
-					GameObject sta = (GameObject)Instantiate(star,new Vector3(point.x+Random.Range(-10,10), point.y+Random.Range(-10,10), 30f),Quaternion.identity);
-					sta.transform.parent = StarsObject.transform;
-					numOfPlanets++;
-					checks[index] = true;
-				}
-			}
-			index++;
-			if (index > ScrambledList.Count-1) index = 0;
-		}
+		StartCoroutine(GenerateStar(0.01f));
 		border.GetComponent<CircleCollider2D>().radius += 75;
+	}
+
+	IEnumerator GenerateStar(float waitTime) {
+		yield return new WaitForSeconds(waitTime);
+		if (Random.Range(1,8) == 1) {
+			if (checks[index] != true) {
+				Vector2 point = (Vector2)ScrambledList[index];
+				GameObject sta = (GameObject)Instantiate(star,new Vector3(point.x+Random.Range(-10,10), point.y+Random.Range(-10,10), 30f),Quaternion.identity);
+				sta.transform.parent = StarsObject.transform;
+				numOfPlanets++;
+				checks[index] = true;
+			}
+		}
+		index++;
+		if (index > ScrambledList.Count-1) index = 0;
+		if (numOfPlanets/ScrambledList.Count < percentFull/100)
+			StartCoroutine(GenerateStar(0.05f));
 	}
 }
