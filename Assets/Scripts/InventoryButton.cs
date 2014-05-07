@@ -17,7 +17,8 @@ public class InventoryButton : MonoBehaviour {
 				if (Physics.Raycast(ray, out hit)) {
 					if (hit.collider.name != "Menu")
 						if (hit.collider.name != "ItemBox")
-							ShowHide(false);
+							if (hit.collider.name != "InventoryButton")
+								ShowHide(false);
 				}			
 				else
 					ShowHide(false);
@@ -26,10 +27,12 @@ public class InventoryButton : MonoBehaviour {
 	}
 
 	public void OnClick() {
+		Debug.Log("usahdoias");
 		ShowHide(true);
 	}
 
 	void ShowHide(bool show) {
+		Debug.Log("showing: "+show);
 		GetComponent<MeshRenderer>().enabled = show;
 		GetComponent<BoxCollider>().enabled = show;
 		foreach (MeshRenderer child in transform.GetComponentsInChildren<MeshRenderer>())
