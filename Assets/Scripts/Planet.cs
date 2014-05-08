@@ -62,7 +62,7 @@ public class Planet : MonoBehaviour {
 			SetupSand1();
 		if (planetType == 5)
 			SetupIce1();
-		StartCoroutine(VerifyInBounds(0.2f));
+		StartCoroutine(VerifyInBounds(0.4f));
 	}
 
 	public void DestroySelf() {

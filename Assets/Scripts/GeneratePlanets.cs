@@ -73,10 +73,10 @@ public class GeneratePlanets : MonoBehaviour {
 			if (index > ScrambledList.Count-1) index = 0;
 		}
 		border.GetComponent<CircleCollider2D>().radius += 75;
-		StartCoroutine(Consolidate(0.3f));
+		//StartCoroutine(Resize(0.5f));
 	}
 
-	IEnumerator Consolidate(float waitTime) {
+	IEnumerator Resize(float waitTime) {
 		yield return new WaitForSeconds(waitTime);
 		//GameObject.Find("Planets").GetComponent<CombineChildrenExtended>().Combine();
 		//GameObject.Find("PlanetObjects").GetComponent<CombineChildrenExtended>().Combine();
